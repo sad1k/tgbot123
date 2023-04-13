@@ -4,14 +4,9 @@ import os
 from aiogram.types import ContentTypes
 from loader import dp, bot, model
 from data import config
-import speech_recognition as sr
-from pydub import AudioSegment
 import whisper
 
 async def audio_to_text(dest_name:str, message):
-    r = sr.Recognizer()
-
-    AudioSegment.converter = "C:\\FFmpeg\\bin\\ffmpeg.exe"
     file_src = Path(dest_name)
     # audio = AudioSegment.from_mp3(file_src)
     #
