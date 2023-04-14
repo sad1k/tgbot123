@@ -4,24 +4,28 @@ import os
 from aiogram.types import ContentTypes
 from loader import dp, bot, model
 from data import config
-import whisper
+from deepgram import Deepgram
+from pydub import AudioSegment
 
-async def audio_to_text(dest_name:str, message):
+async def audio_to_text(dest_name:str, dest_name2,  message):
     file_src = Path(dest_name)
-    # audio = AudioSegment.from_mp3(file_src)
-    #
-    # audio.export(file_src2, format='wav')
+    file_src2 = Path(dest_name2)
+    audio = AudioSegment.from_mp3(file_src)
+
+    audio.export(file_src2, format='wav')
     # load audio and pad/trim it to fit 30 seconds
-    audio = whisper.load_audio(file_src)
-    audio = whisper.pad_or_trim(audio)
-    mel = whisper.log_mel_spectrogram(audio).to(model.device)
-    options = whisper.DecodingOptions(fp16=False, language='ru',)
-    result = whisper.decode(model, mel, options)
+    # Initializes the Deepgram SDK
+    deepgram = Deepgram(config.DEEPGRAM_API_KEY)
+    # Open the audio file
+    with open(file_src2, 'rb') as audio:
+        # ...or replace mimetype as appropriate
+        source = {'buffer': audio, 'mimetype': 'audio/wav'}
+        response = await deepgram.transcription.prerecorded(source, {'punctuate': True})
     os.remove(file_src)
     # with sr.AudioFile(open(file_src2, 'rb')) as source:
     #     audio =r.record(source)
     # result = r.recognize_google(audio, language='ru-RU')
-    await bot.send_message(chat_id=message.from_user.id, text = result.text)
+    await bot.send_message(chat_id=message.from_user.id, text = response['results']["channels"][0]["alternatives"][0]["transcript"])
 
 
 
@@ -34,4 +38,4 @@ async def get_audio_message(message):
     fname = os.path.basename(audio_id.file_path)
     with open('E:\\tgbot123\\handlers\\users\\' + fname, 'wb') as f:
         f.write(doc.content)
-    result = await audio_to_text('E:\\tgbot123\\handlers\\users\\' +fname, message)
+    result = await audio_to_text('E:\\tgbot123\\handlers\\users\\' +fname, 'E:\\tgbot123\\handlers\\users\\' +fname[:-4] + '.wav',  message)
