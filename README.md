@@ -1,6 +1,8 @@
 # tgbot123
 
-Whisper is a general-purpose speech recognition model. It is trained on a large dataset of diverse audio and is also a multitasking model that can perform multilingual speech recognition, speech translation, and language identification.
+ENG: Whisper is a general-purpose speech recognition model. It is trained on a large dataset of diverse audio and is also a multitasking model that can perform multilingual speech recognition, speech translation, and language identification.
+
+RUS: Whisper - это модель распознавания речи общего назначения. Она обучена на большом наборе данных разнообразных аудиозаписей и является многозадачной моделью, которая может выполнять многоязычное распознавание речи, перевод речи и идентификацию языка.
 
 # Approach
 ![image](https://github.com/sad1k/tgbot123/assets/91619133/3ccd24d6-d069-4e1d-b0b6-0602bf389024)
