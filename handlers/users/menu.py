@@ -32,6 +32,7 @@ async def split_audio(input_file, output_dir, segment_duration, message):
         subprocess.run(['ffmpeg', '-i', input_file, '-ss', str(start_time), '-t', str(end_time - start_time), '-c', 'copy', output_file], check=True)
         text += audio_to_text('E:\\tgbot123\\handlers\\users\\' + 'output{}.'.format(i)+['mp3','oga'][flag])
         os.remove(output_dir + 'output{}.'.format(i)+['mp3','oga'][flag])
+    os.remove(input_file)
     await bot.send_message(chat_id=message.from_user.id, text=text)
 
 
